@@ -6,7 +6,7 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
   ];
   
   // Retrieve the last selected filter from local storage or default to 'all'
-  let lastSelectedFilter = localStorage.getItem('lastSelectedFilter') || 'all';
+  let selectedCategory = localStorage.getItem('lastSelectedFilter') || 'all';
   
   // Function to display a random quote based on the selected category filter
   function showRandomQuote() {
@@ -24,10 +24,10 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
     }
   }
   
-  // Function to save quotes and the selected filter to local storage
+  // Function to save quotes and the selected category filter to local storage
   function saveQuotes() {
     localStorage.setItem('quotes', JSON.stringify(quotes));
-    localStorage.setItem('lastSelectedFilter', lastSelectedFilter);
+    localStorage.setItem('lastSelectedFilter', selectedCategory);
   }
   
   // Function to add a new quote and update the dropdown if a new category is introduced
@@ -75,12 +75,12 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
     });
   
     // Restore the last selected filter
-    categoryFilter.value = lastSelectedFilter;
+    categoryFilter.value = selectedCategory;
   }
   
-  // Function to filter quotes based on selected category and update lastSelectedFilter
+  // Function to filter quotes based on selected category and update selectedCategory
   function filterQuotes() {
-    lastSelectedFilter = document.getElementById('categoryFilter').value;
+    selectedCategory = document.getElementById('categoryFilter').value;
     showRandomQuote();
     saveQuotes();
   }
