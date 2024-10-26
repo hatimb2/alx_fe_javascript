@@ -10,7 +10,7 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
 // Retrieve the last selected filter from local storage or default to 'all'
 let selectedCategory = localStorage.getItem('lastSelectedFilter') || 'all';
 
-// Function to display a random quote based on the selected category filter
+// Display a random quote based on the selected category filter
 function showRandomQuote() {
   const quoteDisplay = document.getElementById('quoteDisplay');
   const categoryFilter = document.getElementById('categoryFilter').value;
@@ -31,7 +31,7 @@ function saveQuotes() {
   localStorage.setItem('lastSelectedFilter', selectedCategory);
 }
 
-// Add a new quote and sync with server
+// Add a new quote and sync it to the server
 function addQuote() {
   const newQuoteText = document.getElementById('newQuoteText').value;
   const newQuoteCategory = document.getElementById('newQuoteCategory').value;
@@ -43,7 +43,7 @@ function addQuote() {
 
   const newQuote = { id: Date.now(), text: newQuoteText, category: newQuoteCategory };
   quotes.push(newQuote);
-  syncLocalToServer(newQuote);  // Sync new quote to server
+  syncQuotes();  // Sync local quotes with server
   saveQuotes();
   populateCategories();
 
@@ -75,7 +75,12 @@ function filterQuotes() {
   saveQuotes();
 }
 
-// Fetch quotes from the server periodically
+// Central sync function to fetch and resolve conflicts with server data
+function syncQuotes() {
+  fetchQuotesFromServer();
+}
+
+// Fetch quotes from the "server"
 async function fetchQuotesFromServer() {
   try {
     const response = await fetch(SERVER_URL);
@@ -173,4 +178,4 @@ function importFromJsonFile(event) {
 document.getElementById('newQuote').addEventListener('click', showRandomQuote);
 populateCategories();
 showRandomQuote();
-setInterval(fetchQuotesFromServer, 30000); // Check server every 30 seconds
+setInterval(syncQuotes, 30000); // Sync with server every 30 seconds
