@@ -101,6 +101,8 @@ async function syncLocalToServer(quote) {
       },
       body: JSON.stringify(quote)
     });
+    
+    console.log("Quotes synced with server!");  // Log message indicating successful sync
     notifyUser('Quote synced with server!');  // Notify user that the quote has been synced
   } catch (error) {
     console.error('Error syncing quote to server:', error);
