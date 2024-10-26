@@ -43,7 +43,7 @@ function addQuote() {
 
   const newQuote = { id: Date.now(), text: newQuoteText, category: newQuoteCategory };
   quotes.push(newQuote);
-  syncQuotes();  // Sync local quotes with server
+  syncLocalToServer(newQuote);  // Sync local quotes with server immediately after adding
   saveQuotes();
   populateCategories();
 
@@ -101,7 +101,7 @@ async function syncLocalToServer(quote) {
       },
       body: JSON.stringify(quote)
     });
-    console.log('Quote synced to server:', quote);
+    notifyUser('Quote synced with server!');  // Notify user that the quote has been synced
   } catch (error) {
     console.error('Error syncing quote to server:', error);
   }
